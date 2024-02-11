@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: "user-service"
+  data:
+    mongodb:
+      uri: "${MONGODB_URI}/db"
+
+springdoc:
+  swagger-ui:
+    path: /api/user/swagger/ui
+  api-docs:
+    path: /api/user/swagger/docs
+
+server:
+  port: 8082
+
+management:
+  zipkin:
+    tracing:
+      endpoint: "http://${ZIPKIN_HOST}/api/v2/spans"
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO

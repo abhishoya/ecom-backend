@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run All Applications" type="CompoundRunConfigurationType">
+    <toRun name="AuthApplication" type="Application" />
+    <toRun name="GatewayApplication" type="Application" />
+    <toRun name="OrderApplication" type="Application" />
+    <toRun name="PaymentApplication" type="Application" />
+    <toRun name="ProductApplication" type="Application" />
+    <toRun name="UserApplication" type="Application" />
+    <toRun name="Zipkin" type="JarApplication" />
+    <method v="2" />
+  </configuration>
+</component>

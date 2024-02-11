@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: "order-service"
+  data:
+    mongodb:
+      uri: "${MONGODB_URI}/db"
+  kafka:
+    bootstrap-server: "localhost:9092"
+
+springdoc:
+  swagger-ui:
+    path: /api/order/swagger/ui
+  api-docs:
+    path: /api/order/swagger/docs
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8084
+
+management:
+  zipkin:
+    tracing:
+      endpoint: "${ZIPKIN_URI}/api/v2/spans"
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO

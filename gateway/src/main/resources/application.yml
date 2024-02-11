@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: "gateway-service"
+  main:
+    web-application-type: reactive
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8080
+
+management:
+  zipkin:
+    tracing:
+      endpoint: "http://${ZIPKIN_HOST}/api/v2/spans"
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO

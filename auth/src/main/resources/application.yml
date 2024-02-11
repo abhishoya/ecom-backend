@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: "auth-service"
+  data:
+    mongodb:
+      uri: "${MONGODB_URI}/db"
+
+springdoc:
+  swagger-ui:
+    path: /api/auth/swagger/ui
+  api-docs:
+    path: /api/auth/swagger/docs
+
+server:
+  port: 8081
+
+management:
+  zipkin:
+    tracing:
+      endpoint: "${ZIPKIN_URI}/api/v2/spans"
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO
+  path: "C:\\Users\\abhis_ldm1adl\\Documents\\development\\e-commerce-backend\\logfile.txt"
