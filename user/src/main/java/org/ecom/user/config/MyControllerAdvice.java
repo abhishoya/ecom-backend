@@ -7,13 +7,11 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 
 import lombok.extern.slf4j.*;
-import org.ecom.common.model.log.*;
 import org.ecom.common.model.response.*;
 import org.ecom.user.controller.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,7 +35,7 @@ public class MyControllerAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleControllerException(HttpServletRequest request, Throwable ex) throws JsonProcessingException {
         Timestamp t = new Timestamp(Instant.now().toEpochMilli());
         log.error(ex.getMessage());
-        return new ResponseEntity<>(ExceptionResponse.builder().status(HttpStatus.BAD_REQUEST).message(ex.getMessage()).timestamp(t).url(request.getRequestURI()).errorId(tracer.currentTraceContext().context().traceId()).build(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ExceptionResponse.builder().status(HttpStatus.BAD_REQUEST).message(ex.getMessage()).timestamp(t).requestId(Objects.requireNonNull(tracer.currentTraceContext().context()).traceId()).build(), HttpStatus.BAD_REQUEST);
     }
 
     private HttpStatus getStatus(HttpServletRequest request) {

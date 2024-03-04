@@ -1,9 +1,12 @@
 package org.ecom.common.model.response;
 
+import io.micrometer.tracing.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 
 import java.sql.*;
+import java.time.*;
 
 
 @Setter
@@ -13,7 +16,6 @@ public class ExceptionResponse
 {
     final HttpStatus status;
     final String message;
-    final Timestamp timestamp;
-    final String url;
-    final String errorId;
+    @Builder.Default final Timestamp timestamp = Timestamp.from(Instant.now());
+    final String requestId;
 }

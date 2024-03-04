@@ -1,6 +1,7 @@
 package org.ecom.order.controller;
 
 import com.fasterxml.jackson.databind.*;
+import io.micrometer.tracing.*;
 import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import lombok.extern.slf4j.*;
@@ -39,6 +40,9 @@ public class OrderController
 
     @Autowired
     private KafkaProducer kafkaProducer;
+
+    @Autowired
+    private Tracer tracer;
 
     @GetMapping("list")
     @IsAdmin
@@ -94,7 +98,25 @@ public class OrderController
         catch (Exception e)
         {
             log.error(e.getMessage());
-            return new ResponseEntity<>(ExceptionResponse.builder().message("Internal Server Error").timestamp(Timestamp.from(Instant.now())).build(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ExceptionResponse.builder().message("Something went wrong").timestamp(Timestamp.from(Instant.now())).build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("updateStatus")
+    @IsAdmin
+    public ResponseEntity<Object> updateOrderStatus(@RequestBody OrderStatusDto order)
+    {
+        try
+        {
+            return new ResponseEntity<>(orderService.updateOrder(order), HttpStatus.OK);
+        }
+        catch (IllegalArgumentException e)
+        {
+            return new ResponseEntity<>(ExceptionResponse.builder().status(HttpStatus.BAD_REQUEST).message("Couldn't update order").requestId(Objects.requireNonNull(tracer.currentTraceContext().context()).traceId()).build(), HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(ExceptionResponse.builder().status(HttpStatus.INTERNAL_SERVER_ERROR).message("Something went wrong").requestId(Objects.requireNonNull(tracer.currentTraceContext().context()).traceId()).build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

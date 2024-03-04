@@ -25,3 +25,9 @@ management:
 logging:
   level:
     root: INFO
+
+security:
+  config:
+    excludedUrls: >
+      /api/user/swagger/**,
+      /api/user/signup

@@ -6,6 +6,7 @@ import org.ecom.common.model.event.*;
 import org.ecom.common.model.order.*;
 import org.ecom.common.model.user.*;
 import org.ecom.order.kafka.*;
+import org.ecom.order.model.*;
 import org.ecom.order.repository.*;
 import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.*;
@@ -53,7 +54,7 @@ public class OrderService
     public Order createOrder(Order order)
     {
         updateInventory(order);
-        order.setStatus(OrderStatus.ORDER_CREATE_SUCCESS);
+        order.setStatus(OrderStatus.ORDER_CREATED);
         return repository.save(order);
     }
 
@@ -74,7 +75,7 @@ public class OrderService
         new RestTemplate().exchange(req, Object.class);
     }
 
-    public Order cancelOrder(@PathVariable String id) {
+    public Order cancelOrder(String id) {
         Order order = repository.findById(id).orElseThrow(() -> new IllegalArgumentException(String.format("Order with id %s not found", id)));
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean isAdmin = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
@@ -88,17 +89,22 @@ public class OrderService
         }
     }
 
-    public void updateStatusForOrderId(String id, OrderStatus orderStatus) {
+    public Order updateStatusForOrderId(String id, OrderStatus orderStatus) {
         Optional<Order> order = repository.findById(id);
         if(order.isPresent())
         {
             log.info("updateOrder for order id {} orderStatus {}", id, orderStatus);
-            updateOrderStatus(order.get(), orderStatus);
+            return updateOrderStatus(order.get(), orderStatus);
         }
         else
         {
             log.warn("updateOrder called upon invalid order id {} orderStatus {}", id, orderStatus);
+            throw new IllegalArgumentException(String.format("updateOrder called for invalid order id %s", id));
         }
+    }
+
+    public Order updateOrder(OrderStatusDto orderStatusDto) throws IllegalArgumentException {
+        return updateStatusForOrderId(orderStatusDto.getId(), orderStatusDto.getOrderStatus());
     }
 
     private Order updateOrderStatus(Order order, OrderStatus orderStatus) {
@@ -107,7 +113,7 @@ public class OrderService
             if(orderStatus.isFailed())
             {
                 kafkaProducer.sendMessage(
-                        orderStatus.name().toLowerCase(),
+                        "order_revert_inventory",
                         KafkaEvent.builder()
                                 .tracingEventData(TracingEventData.from(Objects.requireNonNull(tracer.currentTraceContext().context())))
                                 .eventData(OrderEventData.from(order))
@@ -115,10 +121,6 @@ public class OrderService
                                 .authorities(UserRole.ADMIN.getAuthorities().stream().toList())
                                 .build()
                 );
-            }
-            if(orderStatus.equals(OrderStatus.ORDER_CANCELLED))
-            {
-
             }
             order.setStatus(orderStatus);
             repository.save(order);

@@ -5,7 +5,28 @@ spring:
     mongodb:
       uri: "${MONGODB_URI}/db"
   kafka:
-    bootstrap-server: "localhost:9092"
+    bootstrap-server: localhost:9092
+    properties:
+      #Server host name verification is disabled by setting ssl.endpoint.identification.algorithm to an empty string
+      ssl.endpoint.identification.algorithm:
+    producer:
+      retries: 0
+      acks: all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: foo
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+#APP SPECIFIC CUSTOM PROPERTIES
+app:
+  kafka:
+    producer:
+      topic: <order_revert_inventory>
+    consumer:
+      topic: <order_payment_failed, order_payment_success>
 
 springdoc:
   swagger-ui:
@@ -30,3 +51,9 @@ management:
 logging:
   level:
     root: INFO
+
+security:
+  config:
+    excludedUrls: >
+      /api/order/swagger/**,
+      /api/order/get/**

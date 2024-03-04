@@ -23,7 +23,7 @@ import java.util.stream.*;
 
 @Component
 @Slf4j
-public class KafkaConsumer {
+public class  KafkaConsumer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaConsumer.class);
 
@@ -40,7 +40,7 @@ public class KafkaConsumer {
     @Autowired
     private ProductService productService;
 
-    @KafkaListener(topics = "failed_orders", groupId = "default")
+    @KafkaListener(topics = "order_revert_inventory", groupId = "default")
     public void failedOrder(ConsumerRecord<String, String> consumerRecord) {
         try {
             objectMapper.registerModule(new SimpleModule().addDeserializer(SimpleGrantedAuthority.class, new SimpleGrantedAuthorityDeserializer()));

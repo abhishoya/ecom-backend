@@ -55,7 +55,7 @@ public class JwtVerifiedFilter extends OncePerRequestFilter {
                                 .builder()
                                 .status(HttpStatus.UNAUTHORIZED)
                                 .message("Expired Token")
-                                .errorId(HttpStatus.UNAUTHORIZED.toString())
+                                .requestId(Objects.requireNonNull(tracer.currentTraceContext().context()).traceId())
                                 .build()
                         )
                 );
