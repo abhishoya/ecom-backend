@@ -1,11 +1,11 @@
 package org.ecom.product.model;
 
-import lombok.*;
-import org.springframework.data.annotation.*;
-import org.springframework.data.mongodb.core.index.*;
-import org.springframework.data.mongodb.core.mapping.*;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.*;
+import java.util.List;
 
 @Document(collection = "products")
 @Data

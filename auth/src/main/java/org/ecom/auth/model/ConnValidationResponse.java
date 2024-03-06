@@ -2,13 +2,11 @@ package org.ecom.auth.model;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Builder

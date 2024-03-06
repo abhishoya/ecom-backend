@@ -1,6 +1,6 @@
 package org.ecom.user.model;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class UserSignupDto

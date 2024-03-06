@@ -1,21 +1,13 @@
 package org.ecom.gateway;
 
-import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.*;
-import org.springframework.boot.autoconfigure.data.mongo.*;
-import org.springframework.boot.autoconfigure.jdbc.*;
-import org.springframework.boot.autoconfigure.mongo.*;
-import org.springframework.boot.autoconfigure.orm.jpa.*;
-import org.springframework.cloud.client.loadbalancer.*;
-import org.springframework.context.annotation.*;
-import org.springframework.security.config.annotation.web.builders.*;
-import org.springframework.security.config.annotation.web.configurers.*;
-import org.springframework.security.config.annotation.web.reactive.*;
-import org.springframework.security.config.http.*;
-import org.springframework.security.web.*;
-import org.springframework.security.web.authentication.*;
-import org.springframework.web.reactive.function.client.*;
-import reactor.core.publisher.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import reactor.core.publisher.Hooks;
 
 @SpringBootApplication(exclude = {
         DataSourceAutoConfiguration.class,

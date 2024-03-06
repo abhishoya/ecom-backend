@@ -1,14 +1,17 @@
 package org.ecom.common.config.mongo;
 
-import com.mongodb.lang.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.autoconfigure.*;
-import org.springframework.context.annotation.*;
-import org.springframework.data.mongodb.*;
-import org.springframework.data.mongodb.config.*;
-import org.springframework.data.mongodb.core.*;
-import org.springframework.data.mongodb.repository.config.*;
-import org.springframework.transaction.*;
+import com.mongodb.lang.NonNull;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.MongoTransactionManager;
+import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableAutoConfiguration

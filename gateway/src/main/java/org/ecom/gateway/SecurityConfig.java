@@ -1,15 +1,9 @@
 package org.ecom.gateway;
 
-import org.springframework.context.annotation.*;
-import org.springframework.security.config.*;
-import org.springframework.security.config.annotation.method.configuration.*;
-import org.springframework.security.config.annotation.web.builders.*;
-import org.springframework.security.config.annotation.web.configuration.*;
-import org.springframework.security.config.annotation.web.configurers.*;
-import org.springframework.security.config.http.*;
-import org.springframework.security.config.web.server.*;
-import org.springframework.security.web.*;
-import org.springframework.security.web.server.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 
 @Configuration

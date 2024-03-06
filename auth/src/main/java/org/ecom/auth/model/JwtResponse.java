@@ -1,6 +1,7 @@
 package org.ecom.auth.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

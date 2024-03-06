@@ -1,11 +1,11 @@
 package org.ecom.common.model.log;
 
-import com.fasterxml.jackson.databind.annotation.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
-import java.io.*;
-import java.sql.*;
-import java.time.*;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 @Getter
 @Builder

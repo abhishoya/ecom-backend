@@ -1,6 +1,6 @@
 package org.ecom.product.model;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class ProductDto

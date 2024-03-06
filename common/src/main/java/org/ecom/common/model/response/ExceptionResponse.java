@@ -1,12 +1,12 @@
 package org.ecom.common.model.response;
 
-import io.micrometer.tracing.*;
-import lombok.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
-import java.sql.*;
-import java.time.*;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 
 @Setter

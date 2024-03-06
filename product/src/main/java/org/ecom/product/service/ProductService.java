@@ -1,15 +1,18 @@
 package org.ecom.product.service;
 
-import jakarta.ws.rs.*;
-import org.ecom.product.model.*;
-import org.ecom.product.repository.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.*;
-import org.springframework.transaction.annotation.*;
-import org.springframework.web.bind.annotation.*;
+import jakarta.ws.rs.ProcessingException;
+import org.ecom.product.model.Product;
+import org.ecom.product.model.ProductDto;
+import org.ecom.product.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class ProductService

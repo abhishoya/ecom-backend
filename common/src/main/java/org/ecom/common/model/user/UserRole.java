@@ -1,10 +1,11 @@
 package org.ecom.common.model.user;
 
-import org.springframework.security.core.*;
-import org.springframework.security.core.authority.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public enum UserRole {
     USER(new HashSet<>(Arrays.asList(UserPermission.READ_WRITE_USER))),

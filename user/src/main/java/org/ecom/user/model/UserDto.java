@@ -1,9 +1,9 @@
 package org.ecom.user.model;
 
-import lombok.*;
-import org.ecom.common.model.user.*;
+import lombok.Data;
+import org.ecom.common.model.user.UserRole;
 
-import java.util.*;
+import java.util.Date;
 
 @Data
 public class UserDto

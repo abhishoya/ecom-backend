@@ -1,12 +1,13 @@
 package org.ecom.auth.dto;
 
-import lombok.*;
-import lombok.extern.slf4j.*;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.ecom.common.model.user.User;
-import org.springframework.security.core.*;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
 
 @Slf4j
 @ToString

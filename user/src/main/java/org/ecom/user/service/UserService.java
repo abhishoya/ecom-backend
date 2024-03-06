@@ -1,13 +1,12 @@
 package org.ecom.user.service;
 
-import org.ecom.common.model.user.*;
-import org.ecom.user.repository.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.*;
-import org.springframework.web.bind.annotation.*;
+import org.ecom.common.model.user.User;
+import org.ecom.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
 
 @Component
 public class UserService

@@ -1,6 +1,6 @@
 package org.ecom.common.model.order;
 
-import java.util.*;
+import java.util.List;
 
 public enum OrderStatus
 {

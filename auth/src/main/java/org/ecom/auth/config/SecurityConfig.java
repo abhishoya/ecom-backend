@@ -1,14 +1,17 @@
 package org.ecom.auth.config;
 
-import org.ecom.auth.filter.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.context.annotation.*;
-import org.springframework.security.config.annotation.method.configuration.*;
-import org.springframework.security.config.annotation.web.builders.*;
-import org.springframework.security.config.annotation.web.configurers.*;
-import org.springframework.security.config.http.*;
-import org.springframework.security.web.*;
-import org.springframework.security.web.authentication.*;
+import org.ecom.auth.filter.JwtAuthenticationEntryPoint;
+import org.ecom.auth.filter.JwtAuthenticationFilter;
+import org.ecom.auth.filter.JwtVerifiedFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableGlobalMethodSecurity(

@@ -1,9 +1,11 @@
 package org.ecom.common.model.user;
 
 import com.mongodb.lang.NonNull;
-import lombok.*;
-import org.bson.codecs.pojo.annotations.*;
-import org.springframework.data.annotation.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 

@@ -1,6 +1,6 @@
 package org.ecom.common.model.order;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class OrderItem

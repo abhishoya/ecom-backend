@@ -1,9 +1,10 @@
 package org.ecom.common.model.event;
 
-import lombok.*;
-import org.ecom.common.model.order.*;
+import lombok.Data;
+import org.ecom.common.model.order.Order;
+import org.ecom.common.model.order.OrderItem;
 
-import java.util.*;
+import java.util.List;
 
 @Data
 public class OrderEventData implements EventData {

@@ -1,8 +1,9 @@
 package org.ecom.common.model.event;
 
 
-import io.micrometer.tracing.*;
-import lombok.*;
+import io.micrometer.tracing.TraceContext;
+import lombok.Data;
+import lombok.ToString;
 
 @Data
 @ToString

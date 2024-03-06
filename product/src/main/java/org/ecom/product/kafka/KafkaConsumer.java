@@ -1,25 +1,29 @@
 package org.ecom.product.kafka;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.jsontype.*;
-import com.fasterxml.jackson.databind.module.*;
-import io.micrometer.tracing.*;
-import io.micrometer.tracing.brave.bridge.*;
-import lombok.extern.slf4j.*;
-import org.apache.kafka.clients.consumer.*;
-import org.ecom.common.config.jackson.*;
-import org.ecom.common.model.event.*;
-import org.ecom.product.service.*;
-import org.slf4j.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.kafka.annotation.*;
-import org.springframework.security.core.authority.*;
-import org.springframework.stereotype.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
+import io.micrometer.tracing.brave.bridge.BraveTraceContext;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.ecom.common.config.jackson.SimpleGrantedAuthorityDeserializer;
+import org.ecom.common.model.event.KafkaEvent;
+import org.ecom.common.model.event.OrderEventData;
+import org.ecom.product.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j

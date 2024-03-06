@@ -1,26 +1,30 @@
 package org.ecom.auth.filter;
 
-import com.fasterxml.jackson.databind.*;
-import com.mongodb.lang.*;
-import io.jsonwebtoken.*;
-import io.micrometer.tracing.*;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import org.ecom.auth.service.*;
-import org.ecom.auth.utils.*;
-import org.ecom.common.model.response.*;
-import org.ecom.common.model.user.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
-import org.springframework.security.authentication.*;
-import org.springframework.security.core.*;
-import org.springframework.security.core.context.*;
-import org.springframework.security.web.authentication.*;
-import org.springframework.stereotype.*;
-import org.springframework.web.filter.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.lang.NonNull;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.micrometer.tracing.Tracer;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.ecom.auth.service.UserService;
+import org.ecom.auth.utils.JwtHelper;
+import org.ecom.common.model.response.ExceptionResponse;
+import org.ecom.common.model.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 @Component
 public class JwtVerifiedFilter extends OncePerRequestFilter {

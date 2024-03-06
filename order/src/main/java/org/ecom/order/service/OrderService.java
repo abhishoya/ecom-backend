@@ -1,27 +1,33 @@
 package org.ecom.order.service;
 
-import io.micrometer.tracing.*;
-import lombok.extern.slf4j.*;
-import org.ecom.common.model.event.*;
-import org.ecom.common.model.order.*;
-import org.ecom.common.model.user.*;
-import org.ecom.order.kafka.*;
-import org.ecom.order.model.*;
-import org.ecom.order.repository.*;
-import org.modelmapper.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
+import io.micrometer.tracing.Tracer;
+import lombok.extern.slf4j.Slf4j;
+import org.ecom.common.model.event.KafkaEvent;
+import org.ecom.common.model.event.OrderEventData;
+import org.ecom.common.model.event.TracingEventData;
+import org.ecom.common.model.order.Order;
+import org.ecom.common.model.order.OrderStatus;
+import org.ecom.common.model.user.UserRole;
+import org.ecom.order.kafka.KafkaProducer;
+import org.ecom.order.model.OrderStatusDto;
+import org.ecom.order.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.core.authority.*;
-import org.springframework.security.core.context.*;
-import org.springframework.stereotype.*;
-import org.springframework.util.*;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.*;
+import org.springframework.http.RequestEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.MultiValueMapAdapter;
+import org.springframework.web.client.RestTemplate;
 
-import java.net.*;
-import java.util.*;
-import java.util.stream.*;
+import java.net.URI;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component

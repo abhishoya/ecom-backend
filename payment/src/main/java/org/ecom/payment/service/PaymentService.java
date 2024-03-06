@@ -1,17 +1,20 @@
 package org.ecom.payment.service;
 
-import com.fasterxml.jackson.databind.*;
-import io.micrometer.tracing.*;
-import org.ecom.common.model.event.*;
-import org.ecom.common.model.user.*;
-import org.ecom.payment.kafka.*;
-import org.ecom.payment.model.*;
-import org.ecom.payment.repository.*;
-import org.modelmapper.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.tracing.Tracer;
+import org.ecom.common.model.event.KafkaEvent;
+import org.ecom.common.model.event.PaymentEventData;
+import org.ecom.common.model.event.TracingEventData;
+import org.ecom.common.model.user.UserRole;
+import org.ecom.payment.kafka.KafkaProducer;
+import org.ecom.payment.model.PaymentRecord;
+import org.ecom.payment.repository.PaymentRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Objects;
 
 @Component
 public class PaymentService

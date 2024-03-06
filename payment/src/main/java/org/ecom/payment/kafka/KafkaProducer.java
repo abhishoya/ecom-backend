@@ -1,9 +1,9 @@
 package org.ecom.payment.kafka;
 
-import org.ecom.common.model.event.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.kafka.core.*;
-import org.springframework.stereotype.*;
+import org.ecom.common.model.event.KafkaEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
 
 @Component
 public class KafkaProducer
