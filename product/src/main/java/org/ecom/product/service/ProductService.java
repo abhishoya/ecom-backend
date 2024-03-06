@@ -1,5 +1,6 @@
 package org.ecom.product.service;
 
+import io.micrometer.observation.annotation.Observed;
 import jakarta.ws.rs.ProcessingException;
 import org.ecom.product.model.Product;
 import org.ecom.product.model.ProductDto;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Observed
 public class ProductService
 {
     @Autowired
@@ -71,7 +73,7 @@ public class ProductService
         products.forEach(
                 product -> {
                     int count = mapOfProductIdsAndCount.get(product.getId());
-                    if (product.getQuantity() > count) {
+                    if (product.getQuantity() >= count) {
                         product.setQuantity(product.getQuantity() - count);
                     }
                     else throw new ProcessingException("Product available quantity less than expected");

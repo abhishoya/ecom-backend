@@ -1,5 +1,6 @@
 package org.ecom.order.service;
 
+import io.micrometer.observation.annotation.Observed;
 import io.micrometer.tracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
 import org.ecom.common.model.event.KafkaEvent;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+@Observed
 public class OrderService
 {
     @Autowired

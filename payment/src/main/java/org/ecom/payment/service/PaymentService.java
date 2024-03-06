@@ -2,6 +2,7 @@ package org.ecom.payment.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.observation.annotation.Observed;
 import io.micrometer.tracing.Tracer;
 import org.ecom.common.model.event.KafkaEvent;
 import org.ecom.common.model.event.PaymentEventData;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Component
+@Observed
 public class PaymentService
 {
     @Autowired

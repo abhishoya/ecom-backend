@@ -1,5 +1,6 @@
 package org.ecom.user.service;
 
+import io.micrometer.observation.annotation.Observed;
 import org.ecom.common.model.user.User;
 import org.ecom.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Observed
 public class UserService
 {
     @Autowired
