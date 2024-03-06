@@ -8,6 +8,7 @@ import java.security.*;
 
 @Configuration
 public class EncrypterConfig {
+
     @Bean
     public PasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(10);

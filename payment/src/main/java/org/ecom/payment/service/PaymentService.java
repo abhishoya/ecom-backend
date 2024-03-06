@@ -41,19 +41,6 @@ public class PaymentService
             String orderId = paymentEntity.get("order_id").textValue();
             String currency = paymentEntity.get("currency").textValue();
             Integer amount = paymentEntity.get("amount").intValue();
-
-            /*
-                {
-                "event": "payment.captured",
-                "payload" : {
-                    "payment": {
-                        "entity" : {
-                            "id":
-                        }
-                    }
-                }
-             */
-
             PaymentRecord paymentRecord = new PaymentRecord(event.split("\\.")[1], externalPaymentId, orderId, amount, currency);
             repository.save(paymentRecord);
             if (Objects.equals(event, "payment.captured")) {

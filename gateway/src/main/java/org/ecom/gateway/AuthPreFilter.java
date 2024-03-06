@@ -42,9 +42,6 @@ public class AuthPreFilter extends AbstractGatewayFilterFactory<AuthPreFilter.Co
     );
 
     @Autowired
-    private Tracer tracer;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     private final WebClient.Builder webClientBuilder;

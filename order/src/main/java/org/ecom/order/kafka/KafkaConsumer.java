@@ -27,8 +27,6 @@ public class KafkaConsumer {
 
     private CountDownLatch latch = new CountDownLatch(1);
 
-    private String payload;
-
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -69,7 +67,7 @@ public class KafkaConsumer {
                     .setParent(tracer.traceContextBuilder().spanId(kafkaEvent.tracingEventData.getSpanId()).parentId(kafkaEvent.tracingEventData.getParentId()).traceId(kafkaEvent.tracingEventData.getTraceId()).build())
                     .start();
             tracer.currentTraceContext().newScope(span.context());
-            log.info("received payload='{}'", objectMapper.writeValueAsString(paymentEvent));
+            log.info("received payload='{}'", payload);
             return paymentEvent;
         } catch (JsonProcessingException e) {
             log.error("error processing payload");
@@ -83,9 +81,5 @@ public class KafkaConsumer {
 
     public void resetLatch() {
         latch = new CountDownLatch(1);
-    }
-
-    public String getPayload() {
-        return payload;
     }
 }

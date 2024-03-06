@@ -29,8 +29,6 @@ public class  KafkaConsumer {
 
     private CountDownLatch latch = new CountDownLatch(1);
 
-    private String payload;
-
     @Autowired
     private Tracer tracer;
 
@@ -43,6 +41,7 @@ public class  KafkaConsumer {
     @KafkaListener(topics = "order_revert_inventory", groupId = "default")
     public void failedOrder(ConsumerRecord<String, String> consumerRecord) {
         try {
+            LOGGER.info("received payload='{}'", consumerRecord.value());
             objectMapper.registerModule(new SimpleModule().addDeserializer(SimpleGrantedAuthority.class, new SimpleGrantedAuthorityDeserializer()));
             objectMapper.registerSubtypes(new NamedType(BraveTraceContext.class, "braveTraceContext"));
             KafkaEvent kafkaEvent = objectMapper.readValue(consumerRecord.value(), KafkaEvent.class);
@@ -56,8 +55,6 @@ public class  KafkaConsumer {
                     .start();
             tracer.currentTraceContext().newScope(span.context());
             log.info(tracer.currentSpan().toString());
-            payload = objectMapper.writeValueAsString(kafkaEvent);
-            LOGGER.info("received payload='{}'", payload);
             Map<String, Integer> entries = new HashMap<>();
             orderEventData.getItems().forEach(orderItem -> entries.put(orderItem.getProductId(), orderItem.getQuantity()));
             productService.bulkIncrease(entries);
@@ -77,9 +74,5 @@ public class  KafkaConsumer {
 
     public void resetLatch() {
         latch = new CountDownLatch(1);
-    }
-
-    public String getPayload() {
-        return payload;
     }
 }

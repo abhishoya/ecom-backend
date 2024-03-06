@@ -36,15 +36,6 @@ public class OrderController
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private KafkaProducer kafkaProducer;
-
-    @Autowired
-    private Tracer tracer;
-
     @GetMapping("list")
     @IsAdmin
     public List<Order> getAllOrders()

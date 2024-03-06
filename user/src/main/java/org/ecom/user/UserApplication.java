@@ -8,7 +8,6 @@ import org.ecom.common.config.security.*;
 import org.ecom.common.helper.ExceptionControllerAdvice;
 import org.modelmapper.*;
 import org.springframework.boot.*;
-import org.springframework.boot.actuate.autoconfigure.tracing.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.boot.autoconfigure.data.mongo.*;
 import org.springframework.boot.autoconfigure.jdbc.*;
@@ -23,7 +22,6 @@ import org.springframework.context.annotation.*;
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class
 })
-@ConditionalOnEnabledTracing
 @Import({MongoConfig.class, EncrypterConfig.class, CommonSecurityConfig.class, CommonAuthFilter.class})
 @Slf4j
 public class UserApplication {

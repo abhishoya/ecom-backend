@@ -14,10 +14,7 @@ public class Order
 {
     @Indexed(unique = true)
     private @Id String id;
-
     private String username;
-
     private List<OrderItem> items;
-
     private OrderStatus status;
 }

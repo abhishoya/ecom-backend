@@ -38,9 +38,6 @@ public class OrderService
     @Autowired
     private Tracer tracer;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     public List<Order> getAllOrders()
     {
         return repository.findAll();

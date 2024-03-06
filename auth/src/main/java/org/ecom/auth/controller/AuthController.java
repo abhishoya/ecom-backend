@@ -21,16 +21,7 @@ import java.util.*;
 public class AuthController
 {
     @Autowired
-    private Tracer tracer;
-
-    @Autowired
     private JwtHelper jwtHelper;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PasswordEncoder encoder;
 
     @GetMapping(value = "/auth/validateToken", headers = { HttpHeaders.AUTHORIZATION })
     public ConnValidationResponse validateToken(HttpServletRequest request)

@@ -10,9 +10,11 @@ import java.io.*;
 
 @Component
 public class SimpleGrantedAuthorityDeserializer extends StdDeserializer<SimpleGrantedAuthority> {
+
     public SimpleGrantedAuthorityDeserializer() {
         super(SimpleGrantedAuthority.class);
     }
+
     @Override
     public SimpleGrantedAuthority deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         JsonNode tree = p.getCodec().readTree(p);
