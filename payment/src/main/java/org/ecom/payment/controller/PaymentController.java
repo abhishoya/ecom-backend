@@ -24,9 +24,8 @@ public class PaymentController
     }
 
     @PostMapping("/recordPayment")
-    public ResponseEntity<Object> recordPayment(@RequestBody String payload)
+    public void recordPayment(@RequestBody String payload)
     {
         paymentService.handlePayment(payload);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

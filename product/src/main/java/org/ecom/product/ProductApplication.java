@@ -3,6 +3,7 @@ package org.ecom.product;
 import org.ecom.common.config.crypto.*;
 import org.ecom.common.config.mongo.*;
 import org.ecom.common.config.security.*;
+import org.ecom.common.helper.ExceptionControllerAdvice;
 import org.ecom.product.kafka.*;
 import org.modelmapper.*;
 import org.springframework.boot.*;
@@ -26,6 +27,12 @@ public class ProductApplication
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public ExceptionControllerAdvice exceptionControllerAdvice()
+    {
+        return new ExceptionControllerAdvice();
     }
 
     public static void main(String[] args) {

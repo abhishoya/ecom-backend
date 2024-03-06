@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    UserDto createNewUser(@RequestBody UserSignupDto userSignupDto)
+    public UserDto createNewUser(@RequestBody UserSignupDto userSignupDto)
     {
         User user = modelMapper.map(userSignupDto, User.class);
         user.setTypeOfUser(UserRole.USER);
@@ -56,7 +56,7 @@ public class UserController {
 
     @GetMapping(value = "/getAll/{pageNumber}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @IsAdmin
-    Stream<UserDto> getUsers(@PathVariable int pageNumber)
+    public Stream<UserDto> getUsers(@PathVariable int pageNumber)
     {
         return service.getAllUsers(pageNumber).stream().map(u -> modelMapper.map(u, UserDto.class));
     }
@@ -70,17 +70,23 @@ public class UserController {
 
     @PutMapping("/update")
     @IsUser
-    @PreAuthorize("#newUser.username == authentication.principal")
-    UserDto updateUser(@RequestBody UserDto newUser) throws IOException {
-        User user = modelMapper.map(newUser, User.class);
-        User updatedUser = service.updateUser(user);
-        return modelMapper.map(updatedUser, UserDto.class);
+    public UserDto updateUser(@RequestBody UserDto newUser) throws IllegalAccessException {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (newUser.getUsername().equals(username))
+        {
+            User user = modelMapper.map(newUser, User.class);
+            User updatedUser = service.updateUser(user);
+            return modelMapper.map(updatedUser, UserDto.class);
+        }
+        else {
+            throw new IllegalAccessException("Cannot update user");
+        }
     }
 
-    @DeleteMapping("/delete/{username}")
+    @DeleteMapping("/delete")
     @IsUser
-    @PreAuthorize("#username == authentication.principal.username")
-    void deleteUser(@PathVariable String username) throws IOException {
+    public void deleteUser() throws IOException {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         service.deleteUser(username);
     }
 }

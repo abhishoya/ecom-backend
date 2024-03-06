@@ -5,6 +5,7 @@ import lombok.extern.slf4j.*;
 import org.ecom.common.config.crypto.*;
 import org.ecom.common.config.mongo.*;
 import org.ecom.common.config.security.*;
+import org.ecom.common.helper.ExceptionControllerAdvice;
 import org.modelmapper.*;
 import org.springframework.boot.*;
 import org.springframework.boot.actuate.autoconfigure.tracing.*;
@@ -32,7 +33,11 @@ public class UserApplication {
         return new ModelMapper();
     }
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    @Bean
+    public ExceptionControllerAdvice exceptionControllerAdvice()
+    {
+        return new ExceptionControllerAdvice();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(UserApplication.class, args);

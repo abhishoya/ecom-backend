@@ -1,5 +1,6 @@
 package org.ecom.order.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import io.micrometer.tracing.*;
 import jakarta.servlet.http.*;
@@ -61,62 +62,23 @@ public class OrderController
 
     @PostMapping("create")
     @IsUser
-    public ResponseEntity<Object> createOrder(HttpServletRequest request, HttpServletResponse response, @RequestBody OrderDto orderDto)
-    {
-        try
-        {
-            Order order = modelMapper.map(orderDto, Order.class);
-            String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            order.setUsername(username);
-            return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.OK);
-        }
-        catch (HttpClientErrorException e)
-        {
-            try
-            {
-                ExceptionResponse resp = objectMapper.readValue(e.getResponseBodyAsString(), ExceptionResponse.class);
-                return new ResponseEntity<>(resp, resp.getStatus());
-            }
-            catch (Exception ex)
-            {
-                return new ResponseEntity<>(ExceptionResponse.builder().status(HttpStatus.INTERNAL_SERVER_ERROR).message("Could not create order: " + e.getMessage()).timestamp(Timestamp.from(Instant.now())).build(), HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+    public Order createOrder(HttpServletRequest request, HttpServletResponse response, @RequestBody OrderDto orderDto) throws JsonProcessingException {
+        Order order = modelMapper.map(orderDto, Order.class);
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        order.setUsername(username);
+        return orderService.createOrder(order);
     }
 
     @PutMapping("cancel/{id}")
     @IsUser
-    public ResponseEntity<Object> cancelOrder(@PathVariable String id) {
-        try{
-            return new ResponseEntity<>(orderService.cancelOrder(id), HttpStatus.OK);
-        }
-        catch (IllegalArgumentException exception)
-        {
-            log.error(exception.getMessage());
-            return new ResponseEntity<>(ExceptionResponse.builder().message(String.format("Order with id %s not found", id)).timestamp(Timestamp.from(Instant.now())).status(HttpStatus.BAD_REQUEST).build(), HttpStatus.OK);
-        }
-        catch (Exception e)
-        {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(ExceptionResponse.builder().message("Something went wrong").timestamp(Timestamp.from(Instant.now())).build(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public Order cancelOrder(@PathVariable String id) {
+        return orderService.cancelOrder(id);
     }
 
     @PutMapping("updateStatus")
     @IsAdmin
-    public ResponseEntity<Object> updateOrderStatus(@RequestBody OrderStatusDto order)
+    public Order updateOrderStatus(@RequestBody OrderStatusDto order)
     {
-        try
-        {
-            return new ResponseEntity<>(orderService.updateOrder(order), HttpStatus.OK);
-        }
-        catch (IllegalArgumentException e)
-        {
-            return new ResponseEntity<>(ExceptionResponse.builder().status(HttpStatus.BAD_REQUEST).message("Couldn't update order").requestId(Objects.requireNonNull(tracer.currentTraceContext().context()).traceId()).build(), HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception e)
-        {
-            return new ResponseEntity<>(ExceptionResponse.builder().status(HttpStatus.INTERNAL_SERVER_ERROR).message("Something went wrong").requestId(Objects.requireNonNull(tracer.currentTraceContext().context()).traceId()).build(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return orderService.updateOrder(order);
     }
 }

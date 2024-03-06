@@ -33,13 +33,13 @@ public class AuthController
     private PasswordEncoder encoder;
 
     @GetMapping(value = "/auth/validateToken", headers = { HttpHeaders.AUTHORIZATION })
-    public ResponseEntity<ConnValidationResponse> validateToken(HttpServletRequest request)
+    public ConnValidationResponse validateToken(HttpServletRequest request)
     {
         String username = (String) request.getAttribute("username");
         String token = (String) request.getAttribute("jwt");
-        return ResponseEntity.ok(ConnValidationResponse.builder().status(HttpStatus.OK).methodType(HttpMethod.GET.name())
+        return ConnValidationResponse.builder().status(HttpStatus.OK).methodType(HttpMethod.GET.name())
                 .username(username).token(token).authorities(jwtHelper.getAuthoritiesFromToken(token))
-                .isAuthenticated(true).build());
+                .isAuthenticated(true).build();
     }
 
     @PostMapping(value = "/auth/login", produces = MediaType.APPLICATION_JSON_VALUE)

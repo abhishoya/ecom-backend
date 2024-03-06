@@ -71,22 +71,12 @@ public class ProductController
 
     @PutMapping("/private/bulk/decreaseQuantity")
     @NewSpan("process-order")
-    @Transactional
     @IsUser
-    public ResponseEntity<Object> decreaseQuantity(@RequestBody Order order)
+    public List<Product> decreaseQuantity(@RequestBody Order order)
     {
-        try
-        {
-            Map<String, Integer> mapOfProductIdsAndCount = new HashMap<>();
-            order.getItems().forEach(orderItem -> mapOfProductIdsAndCount.put(orderItem.getProductId(), orderItem.getQuantity()));
-            List<Product> responseBody = productService.bulkDecrease(mapOfProductIdsAndCount);
-            return new ResponseEntity<>(responseBody, HttpStatus.OK);
-        }
-        catch (Exception e)
-        {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(ExceptionResponse.builder().message(e.getMessage()).status(HttpStatus.BAD_REQUEST).timestamp(Timestamp.from(Instant.now())).build(), HttpStatus.BAD_REQUEST);
-        }
+        Map<String, Integer> mapOfProductIdsAndCount = new HashMap<>();
+        order.getItems().forEach(orderItem -> mapOfProductIdsAndCount.put(orderItem.getProductId(), orderItem.getQuantity()));
+        return productService.bulkDecrease(mapOfProductIdsAndCount);
     }
 
     @DeleteMapping("delete/{id}")

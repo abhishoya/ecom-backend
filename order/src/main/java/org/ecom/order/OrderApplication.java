@@ -2,6 +2,8 @@ package org.ecom.order;
 
 import org.ecom.common.config.mongo.*;
 import org.ecom.common.config.security.*;
+import org.ecom.common.helper.ExceptionControllerAdvice;
+import org.ecom.common.model.response.ExceptionResponse;
 import org.modelmapper.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
@@ -24,6 +26,12 @@ public class OrderApplication
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public ExceptionControllerAdvice exceptionControllerAdvice()
+    {
+        return new ExceptionControllerAdvice();
     }
 
     public static void main(String[] args) {

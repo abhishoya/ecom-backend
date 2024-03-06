@@ -2,6 +2,7 @@ package org.ecom.auth;
 
 import org.ecom.common.config.crypto.*;
 import org.ecom.common.config.mongo.*;
+import org.ecom.common.helper.ExceptionControllerAdvice;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.boot.autoconfigure.data.mongo.*;
@@ -19,6 +20,13 @@ import org.springframework.context.annotation.*;
 })
 @Import({MongoConfig.class, EncrypterConfig.class})
 public class AuthApplication {
+
+    @Bean
+    public ExceptionControllerAdvice exceptionControllerAdvice()
+    {
+        return new ExceptionControllerAdvice();
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(AuthApplication.class, args);
     }
