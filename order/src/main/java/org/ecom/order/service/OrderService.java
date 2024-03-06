@@ -46,6 +46,9 @@ public class OrderService
     @Autowired
     private Tracer tracer;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     public List<Order> getAllOrders()
     {
         return repository.findAll();
@@ -77,7 +80,7 @@ public class OrderService
         headers.put("authorities", Collections.singletonList(authorities.stream().map(SimpleGrantedAuthority::getAuthority).collect(Collectors.joining(","))));
         headers.put("auth-token", Collections.singletonList(token));
         RequestEntity<Order> req = new RequestEntity<>(order, headers, HttpMethod.PUT, URI.create(productServiceUri + "/private/bulk/decreaseQuantity"));
-        new RestTemplate().exchange(req, Object.class);
+        restTemplate.exchange(req, Object.class);
     }
 
     public Order cancelOrder(String id) {
