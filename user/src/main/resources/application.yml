@@ -15,6 +15,11 @@ server:
   port: 8082
 
 management:
+  otlp:
+    tracing:
+      endpoint: "${GRAFANA_OTLP_ENDPOINT}/v1/traces"
+      headers:
+        Authorization: "Basic ${GRAFANA_TEMPO_USER_PASS_BASE64_ENCODED}"
   zipkin:
     tracing:
       endpoint: "http://${ZIPKIN_HOST}/api/v2/spans"
