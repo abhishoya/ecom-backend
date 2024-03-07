@@ -7,6 +7,8 @@ import org.ecom.product.model.ProductDto;
 import org.ecom.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import java.util.Map;
 
 @Component
 @Observed
+@EnableRetry
 public class ProductService
 {
     @Autowired
@@ -68,6 +71,7 @@ public class ProductService
     }
 
     @Transactional
+    @Retryable(maxAttempts = 10)
     public List<Product> bulkDecrease(Map<String, Integer> mapOfProductIdsAndCount) {
         List<Product> products = repository.findAllById(mapOfProductIdsAndCount.keySet());
         products.forEach(
