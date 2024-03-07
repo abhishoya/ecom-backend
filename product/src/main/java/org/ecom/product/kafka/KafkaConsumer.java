@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
-import io.micrometer.tracing.brave.bridge.BraveTraceContext;
+import io.micrometer.tracing.otel.bridge.OtelTraceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.ecom.common.config.jackson.SimpleGrantedAuthorityDeserializer;
@@ -47,7 +47,7 @@ public class  KafkaConsumer {
         try {
             LOGGER.info("received payload='{}'", consumerRecord.value());
             objectMapper.registerModule(new SimpleModule().addDeserializer(SimpleGrantedAuthority.class, new SimpleGrantedAuthorityDeserializer()));
-            objectMapper.registerSubtypes(new NamedType(BraveTraceContext.class, "braveTraceContext"));
+            objectMapper.registerSubtypes(new NamedType(OtelTraceContext.class, "otelTraceContext"));
             KafkaEvent kafkaEvent = objectMapper.readValue(consumerRecord.value(), KafkaEvent.class);
             OrderEventData orderEventData = (OrderEventData) (kafkaEvent.eventData);
             Span span = tracer.spanBuilder()
