@@ -3,6 +3,7 @@ package org.ecom.auth.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,8 @@ public class JwtHelper {
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    private final String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
+    @Value("${jwt.secret}")
+    private String secret;
 
     //retrieve username from jwt token
     public String getUserNameFromToken(String token) {

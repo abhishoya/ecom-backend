@@ -26,3 +26,6 @@ logging:
   level:
     root: INFO
   path: "C:\\Users\\abhis_ldm1adl\\Documents\\development\\e-commerce-backend\\logfile.txt"
+
+jwt:
+  secret: "${SECRET_KEY}"
