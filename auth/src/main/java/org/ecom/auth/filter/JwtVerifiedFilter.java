@@ -37,7 +37,7 @@ public class JwtVerifiedFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {

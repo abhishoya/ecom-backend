@@ -2,14 +2,14 @@ package org.ecom.common.model.user;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum UserRole {
-    USER(new HashSet<>(Arrays.asList(UserPermission.READ_WRITE_USER))),
-    ADMIN(new HashSet<>(Arrays.asList(UserPermission.READ_WRITE_ADMIN)));
+    USER(new HashSet<>(List.of(UserPermission.READ_WRITE_USER))),
+    ADMIN(new HashSet<>(List.of(UserPermission.READ_WRITE_ADMIN)));
 
     Set<UserPermission> permissions;
 

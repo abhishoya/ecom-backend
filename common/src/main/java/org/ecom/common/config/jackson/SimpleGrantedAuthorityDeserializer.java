@@ -1,7 +1,6 @@
 package org.ecom.common.config.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -18,7 +17,7 @@ public class SimpleGrantedAuthorityDeserializer extends StdDeserializer<SimpleGr
     }
 
     @Override
-    public SimpleGrantedAuthority deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public SimpleGrantedAuthority deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode tree = p.getCodec().readTree(p);
         return new SimpleGrantedAuthority(tree.get("authority").textValue());
     }
