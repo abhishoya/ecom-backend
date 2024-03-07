@@ -1,5 +1,6 @@
 package org.ecom.payment;
 
+import org.ecom.common.config.CommonConfiguration;
 import org.ecom.common.config.crypto.EncrypterConfig;
 import org.ecom.common.config.mongo.MongoConfig;
 import org.ecom.common.config.security.CommonAuthFilter;
@@ -23,7 +24,7 @@ import org.springframework.context.annotation.Import;
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class
 })
-@Import({MongoConfig.class, EncrypterConfig.class, CommonSecurityConfig.class, CommonAuthFilter.class})
+@Import({MongoConfig.class, EncrypterConfig.class, CommonSecurityConfig.class, CommonAuthFilter.class, CommonConfiguration.class})
 public class PaymentApplication
 {
     @Bean

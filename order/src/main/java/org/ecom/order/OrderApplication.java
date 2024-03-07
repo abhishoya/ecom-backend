@@ -1,6 +1,6 @@
 package org.ecom.order;
 
-import org.ecom.common.config.MyConfiguration;
+import org.ecom.common.config.CommonConfiguration;
 import org.ecom.common.config.mongo.MongoConfig;
 import org.ecom.common.config.security.CommonAuthFilter;
 import org.ecom.common.config.security.CommonSecurityConfig;
@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Import;
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class
 })
-@Import({MongoConfig.class, CommonSecurityConfig.class, CommonAuthFilter.class, MyConfiguration.class})
+@Import({MongoConfig.class, CommonSecurityConfig.class, CommonAuthFilter.class, CommonConfiguration.class})
 public class OrderApplication
 {
     @Bean

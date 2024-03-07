@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration(proxyBeanMethods = false)
-public class MyConfiguration {
+public class CommonConfiguration {
     // To have the @Observed support we need to register this aspect
     @Bean
     ObservedAspect observedAspect(ObservationRegistry observationRegistry) {
