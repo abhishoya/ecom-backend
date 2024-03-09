@@ -43,7 +43,6 @@ public class KafkaConsumer {
 
         PaymentEventData paymentEvent = getPaymentEvent(consumerRecord.value());
         orderService.updateStatusForOrderId(paymentEvent.getOrderId(), OrderStatus.ORDER_PAYMENT_SUCCESS);
-        Objects.requireNonNull(tracer.currentSpan()).end();
         latch.countDown();
     }
 
@@ -51,26 +50,16 @@ public class KafkaConsumer {
     public void paymentFailed(ConsumerRecord<String, String> consumerRecord) {
         PaymentEventData paymentEvent = getPaymentEvent(consumerRecord.value());
         orderService.updateStatusForOrderId(paymentEvent.getOrderId(), OrderStatus.ORDER_PAYMENT_FAILED);
-        Objects.requireNonNull(tracer.currentSpan()).end();
         latch.countDown();
     }
 
     private PaymentEventData getPaymentEvent(String payload) {
         try {
+            log.info("received payload='{}'", payload);
             objectMapper.registerModule(new SimpleModule().addDeserializer(SimpleGrantedAuthority.class, new SimpleGrantedAuthorityDeserializer()));
             objectMapper.registerSubtypes(new NamedType(OtelTraceContext.class, "otelTraceContext"));
             KafkaEvent kafkaEvent = objectMapper.readValue(payload, KafkaEvent.class);
-            PaymentEventData paymentEvent = (PaymentEventData) (kafkaEvent.eventData);
-            Span span = tracer.spanBuilder()
-                    .name("process_order")
-                    .tag("order_id", paymentEvent.getOrderId())
-                    .tag("username", kafkaEvent.getUsername())
-                    .tag("authorities", kafkaEvent.getAuthorities().stream().map(SimpleGrantedAuthority::getAuthority).collect(Collectors.joining(",")))
-                    .setParent(tracer.traceContextBuilder().spanId(kafkaEvent.tracingEventData.getSpanId()).parentId(kafkaEvent.tracingEventData.getParentId()).traceId(kafkaEvent.tracingEventData.getTraceId()).build())
-                    .start();
-            tracer.currentTraceContext().newScope(span.context());
-            log.info("received payload='{}'", payload);
-            return paymentEvent;
+            return (PaymentEventData) (kafkaEvent.eventData);
         } catch (JsonProcessingException e) {
             log.error("error processing payload");
             throw new RuntimeException(e);

@@ -35,7 +35,8 @@
                     "class":"%logger{36}",
                     "thread":"%thread",
                     "message": "%message",
-                    "requestId": "%X{X-Request-ID}"
+                    "traceID":"%X{traceId}",
+                    "spanId":"%X{spanId}"
                     }
                 </pattern>
             </message>

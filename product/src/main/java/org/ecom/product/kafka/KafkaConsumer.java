@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
 import io.micrometer.tracing.otel.bridge.OtelTraceContext;
+import io.opentelemetry.instrumentation.kafkaclients.v2_6.TracingConsumerInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerInterceptor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.ecom.common.config.jackson.SimpleGrantedAuthorityDeserializer;
 import org.ecom.common.model.event.KafkaEvent;
@@ -16,6 +18,7 @@ import org.ecom.product.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -50,15 +53,6 @@ public class  KafkaConsumer {
             objectMapper.registerSubtypes(new NamedType(OtelTraceContext.class, "otelTraceContext"));
             KafkaEvent kafkaEvent = objectMapper.readValue(consumerRecord.value(), KafkaEvent.class);
             OrderEventData orderEventData = (OrderEventData) (kafkaEvent.eventData);
-            Span span = tracer.spanBuilder()
-                    .name("process_failed_order")
-                    .tag("order_id", orderEventData.getId())
-                    .tag("username", kafkaEvent.getUsername())
-                    .tag("authorities", kafkaEvent.getAuthorities().stream().map(SimpleGrantedAuthority::getAuthority).collect(Collectors.joining(",")))
-                    .setParent(tracer.traceContextBuilder().spanId(kafkaEvent.tracingEventData.getSpanId()).parentId(kafkaEvent.tracingEventData.getParentId()).traceId(kafkaEvent.tracingEventData.getTraceId()).build())
-                    .start();
-            tracer.currentTraceContext().newScope(span.context());
-            log.info(tracer.currentSpan().toString());
             Map<String, Integer> entries = new HashMap<>();
             orderEventData.getItems().forEach(orderItem -> entries.put(orderItem.getProductId(), orderItem.getQuantity()));
             productService.bulkIncrease(entries);
@@ -67,8 +61,7 @@ public class  KafkaConsumer {
         catch (JsonProcessingException e)
         {
             log.error("error processing payload");
-        } finally {
-            tracer.currentSpan().end();
+            throw new RuntimeException(e);
         }
     }
 

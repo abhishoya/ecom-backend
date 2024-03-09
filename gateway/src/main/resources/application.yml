@@ -18,7 +18,7 @@ management:
         Authorization: "Basic ${GRAFANA_TEMPO_USER_PASS_BASE64_ENCODED}"
   zipkin:
     tracing:
-      endpoint: "http://${ZIPKIN_HOST}/api/v2/spans"
+      endpoint: "http://${ZIPKIN_URI}/api/v2/spans"
   tracing:
     sampling:
       probability: 1.0
