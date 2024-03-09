@@ -14,6 +14,10 @@ The project aims to provide a generic microservices backend for e-Commerce platf
 
 # Services
 
+## Gateway Service
+
+This service serves as an entrypoint to the application. It intercepts incoming requests, perform authentication, and forward request to relevant service.
+
 ## Auth Service:
 
 - SignUp
@@ -49,3 +53,4 @@ The project aims to provide a generic microservices backend for e-Commerce platf
 ## Payment Service 
 
 - Record Payment Webhook
+
