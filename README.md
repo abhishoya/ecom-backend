@@ -10,7 +10,7 @@ Tech Stack:
 
 # Project Description
 
-The project aims to provide a generica backend for e-Commerce platforms. It has features to create, update, and delete products. It also has feature for admin to manage users and orders. The application also has a payment service which can be configured to accept webhooks from different payment gateways such as Razorpay.
+The project aims to provide a generic microservices backend for e-Commerce platforms. It has features to create, update, and delete products. It also has feature for admin to manage users and orders. The application also has a payment service which can be configured to accept webhooks from different payment gateways such as Razorpay.
 
 # Services
 
